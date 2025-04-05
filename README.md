@@ -14,9 +14,10 @@ User Search: On the main screen, enter a GitHub username and press "Search." If 
 Profile Display: The profile screen shows the user's avatar, name, bio, and the number of followers and following. You can also navigate to a list of followers or following for the selected user.
 
 Followers and Following List: Tap on the "Followers" or "Following" link to view a list of the user's followers or following. Each entry links to their GitHub profile.
-![simulator_screenshot_5CD21262-0D8F-477B-91ED-9109C3FD8FF0](https://github.com/user-attachments/assets/6b01f135-676c-4a89-a058-51380a07daee)
-![simulator_screenshot_899ECCFE-A119-4A19-8878-C541F7718DD4](https://github.com/user-attachments/assets/e4318169-0be6-4b76-bd56-ec06e2239221)
-![simulator_screenshot_AF5E8F9F-16E4-48C7-9AF5-974CE3E63B44](https://github.com/user-attachments/assets/a65ac8e4-8ce7-45fc-ace8-5b1e3fa14bea)
+<img src="https://github.com/user-attachments/assets/6b01f135-676c-4a89-a058-51380a07daee" width="300">
+<img src="https://github.com/user-attachments/assets/e4318169-0be6-4b76-bd56-ec06e2239221" width="300">
+<img src="https://github.com/user-attachments/assets/a65ac8e4-8ce7-45fc-ace8-5b1e3fa14bea" width="300">
+
 
 GitHubService
 The GitHubService class handles fetching user data from GitHub's API:
