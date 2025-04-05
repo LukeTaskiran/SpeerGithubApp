@@ -12,6 +12,15 @@ struct GitHubUser: Codable, Identifiable {
     let avatar_url: String
     let name: String?
     let bio: String?
+    // Remove followers and following for the followers/following response
+}
+
+struct GitHubUserProfile: Codable {
+    let id: Int
+    let login: String
+    let avatar_url: String
+    let name: String?
+    let bio: String?
     let followers: Int
     let following: Int
 }
@@ -19,7 +28,7 @@ struct GitHubUser: Codable, Identifiable {
 class GitHubService {
     static let shared = GitHubService()
 
-    func fetchUser(username: String) async throws -> GitHubUser {
+    func fetchUser(username: String) async throws -> GitHubUserProfile {
         let url = URL(string: "https://api.github.com/users/\(username)")!
         let (data, response) = try await URLSession.shared.data(from: url)
 
@@ -27,7 +36,7 @@ class GitHubService {
             throw URLError(.badServerResponse)
         }
 
-        return try JSONDecoder().decode(GitHubUser.self, from: data)
+        return try JSONDecoder().decode(GitHubUserProfile.self, from: data)
     }
 
     func fetchFollowers(username: String) async throws -> [GitHubUser] {
