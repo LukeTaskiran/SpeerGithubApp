@@ -1,13 +1,8 @@
-//
-//  SearchView.swift
-//  Speer-Coding-Test
-//
-//  Created by Luke Taskiran on 2025-04-04.
-//
 import SwiftUI
+
 struct SearchView: View {
     @State private var username: String = ""
-    @State private var user: GitHubUser?
+    @State private var userExists: Bool = false
     @State private var notFound = false
 
     var body: some View {
@@ -20,11 +15,12 @@ struct SearchView: View {
                 Button("Search") {
                     Task {
                         do {
-                            user = try await GitHubService.shared.fetchUser(username: username)
+                            _ = try await GitHubService.shared.fetchUser(username: username)
+                            userExists = true
                             notFound = false
                         } catch {
                             notFound = true
-                            user = nil
+                            userExists = false
                         }
                     }
                 }
@@ -34,9 +30,9 @@ struct SearchView: View {
                         .foregroundColor(.red)
                 }
 
-                if let user = user {
-                    NavigationLink(destination: ProfileView(user: user)) {
-                        Text("View Profile for \(user.login)")
+                if userExists {
+                    NavigationLink(destination: ProfileView(username: username)) {
+                        Text("View Profile for \(username)")
                     }
                 }
 

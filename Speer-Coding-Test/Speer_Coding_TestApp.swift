@@ -11,7 +11,7 @@ import SwiftUI
 struct Speer_Coding_TestApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            SearchView()
         }
     }
 }

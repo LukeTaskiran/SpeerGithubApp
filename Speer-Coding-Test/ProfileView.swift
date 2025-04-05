@@ -5,10 +5,35 @@
 //  Created by Luke Taskiran on 2025-04-04.
 //
 import SwiftUI
+
 struct ProfileView: View {
-    let user: GitHubUser
+    let username: String
+
+    @State private var user: GitHubUser?
+    @State private var isLoading = true
+    @State private var showError = false
 
     var body: some View {
+        Group {
+            if let user = user {
+                content(for: user)
+                    .redacted(reason: isLoading ? .placeholder : [])
+                    .animation(.easeInOut(duration: 0.3), value: isLoading)
+            } else if showError {
+                Text("User not found.")
+                    .foregroundColor(.red)
+            } else {
+                ProgressView()
+            }
+        }
+        .task {
+            await fetchUser()
+        }
+        .navigationTitle(username)
+    }
+
+    @ViewBuilder
+    private func content(for user: GitHubUser) -> some View {
         VStack(spacing: 16) {
             AsyncImage(url: URL(string: user.avatar_url)) { phase in
                 if let image = phase.image {
@@ -17,7 +42,9 @@ struct ProfileView: View {
                         .frame(width: 100, height: 100)
                         .clipShape(Circle())
                 } else {
-                    ProgressView()
+                    Circle()
+                        .fill(Color.gray.opacity(0.3))
+                        .frame(width: 100, height: 100)
                 }
             }
 
@@ -42,6 +69,17 @@ struct ProfileView: View {
             Spacer()
         }
         .padding()
-        .navigationTitle(user.login)
+    }
+
+    private func fetchUser() async {
+        isLoading = true
+        do {
+            let fetchedUser = try await GitHubService.shared.fetchUser(username: username)
+            self.user = fetchedUser
+            try? await Task.sleep(nanoseconds: 1_200_000_000) // simulate skeleton loading (1.2s)
+            isLoading = false
+        } catch {
+            showError = true
+        }
     }
 }
